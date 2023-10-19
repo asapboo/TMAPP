@@ -5,17 +5,21 @@ import {
   rainbowWallet,
   ThirdwebProvider,
   trustWallet,
+  useAddress,
   walletConnect,
+  useSwitchChain,
 } from '@thirdweb-dev/react-native';
 import React from 'react';
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View, Button} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {TW_CLIENT_ID} from '@env';
+import NFT from './NFT';
+import { Zora } from "@thirdweb-dev/chains";
 
 const App = () => {
   return (
     <ThirdwebProvider
-      activeChain="mumbai"
+      activeChain={Zora}
       clientId={TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
       supportedWallets={[
         metamaskWallet(),
@@ -30,7 +34,9 @@ const App = () => {
 };
 
 const AppInner = () => {
+  const address = useAddress();
   const isDarkMode = useColorScheme() === 'dark';
+  const switchChain = useSwitchChain();
 
   const textStyles = {
     color: isDarkMode ? Colors.white : Colors.black,
@@ -39,8 +45,13 @@ const AppInner = () => {
 
   return (
     <View style={styles.view}>
-      <Text style={textStyles}>React Native thirdweb starter</Text>
+      <Text style={textStyles}>ZORA+</Text>
       <ConnectWallet />
+      {address ? ( 
+        <Text> Please connect wallet to begin</Text>
+      ) : ( 
+        <NFT/>
+      )}
     </View>
   );
 };
