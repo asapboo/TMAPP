@@ -6,8 +6,8 @@ import {abi} from "./abi"
 
 const NFT = () => {
     const address = useAddress();
-    const contractAddress = "0x020F79e26D59293f06097bA4216ED43f7a0C8fdD";
-    const {contract} = useContract(contractAddress, abi);
+    const contractAddress = "0x7183209867489E1047f3A7c23ea1Aed9c4E236E8";
+    const {contract} = useContract(contractAddress);
     const switchChain = useSwitchChain();
 
     const { data: nft} = useNFT(contract, 1);

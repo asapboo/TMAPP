@@ -14,13 +14,14 @@ import {StyleSheet, Text, useColorScheme, View, Button} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {TW_CLIENT_ID} from '@env';
 import NFT from './NFT';
-import { Zora } from "@thirdweb-dev/chains";
+import { Zora, Ethereum } from "@thirdweb-dev/chains";
 
 const App = () => {
   return (
     <ThirdwebProvider
-      activeChain={Zora}
-      clientId={TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
+      activeChain={Ethereum}
+      //NEXT_PUBLIC_ prefix for NEXT.js
+      clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
       supportedWallets={[
         metamaskWallet(),
         rainbowWallet(),
@@ -47,7 +48,7 @@ const AppInner = () => {
     <View style={styles.view}>
       <Text style={textStyles}>ZORA+</Text>
       <ConnectWallet />
-      {address ? ( 
+      {!address ? ( 
         <Text> Please connect wallet to begin</Text>
       ) : ( 
         <NFT/>
