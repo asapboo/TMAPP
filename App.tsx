@@ -19,7 +19,7 @@ import { Zora, Ethereum } from "@thirdweb-dev/chains";
 const App = () => {
   return (
     <ThirdwebProvider
-      activeChain={Ethereum}
+      activeChain={Zora}
       //NEXT_PUBLIC_ prefix for NEXT.js
       clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
       supportedWallets={[

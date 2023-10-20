@@ -6,7 +6,7 @@ import {abi} from "./abi"
 
 const NFT = () => {
     const address = useAddress();
-    const contractAddress = "0x7183209867489E1047f3A7c23ea1Aed9c4E236E8";
+    const contractAddress = "0xf032D92A685fbCD4420E437B7903Ed866Be04b87";
     const {contract} = useContract(contractAddress);
     const switchChain = useSwitchChain();
 
@@ -16,7 +16,7 @@ const NFT = () => {
     
     return (
     <ScrollView>
-        <Button title="hello" onPress={() => switchChain(Zora.chainId)}></Button>
+        {/*<Button title="hello" onPress={() => switchChain(Zora.chainId)}></Button>*/}
         <View>
             <Text>{nft?.metadata.name}</Text>
             <Image source={{uri: nftImage?.toString(),}}/>
@@ -24,12 +24,12 @@ const NFT = () => {
                 <Text>You own:</Text>
                 <Text>{isLoading ? ( 'loading' ) : ( nftBalance?.toString () )}</Text>
             </Text>
-            <Web3Button contractAddress={contractAddress} action={(contract) => contract.erc1155.claim(0,1)}>MINT</Web3Button>
         </View>
         <View>
             <Text>Description:</Text>
             <Text>{nft?.metadata.description}</Text>
         </View>
+        <Web3Button contractAddress={contractAddress} action={(contract) => contract.erc1155.claim(0,1)}>MINT</Web3Button>
     </ScrollView>
     );
 }
