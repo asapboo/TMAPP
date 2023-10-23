@@ -22,23 +22,41 @@ import { Camera } from 'react-native-vision-camera';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CameraModule from './CameraModule';
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
+import { createConfig, configureChains, WagmiConfig, useAccount} from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { zora, zoraTestnet } from "viem/chains";
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [zora],
+  [publicProvider()],
+)
+
+const config = createConfig({
+  autoConnect: true,
+  publicClient,
+  webSocketPublicClient,
+})
 
 const App = () => {
   return (
     <NavigationContainer>
-      <ThirdwebProvider
-        activeChain={Zora}
-        //NEXT_PUBLIC_ prefix for NEXT.js
-        clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
-        supportedWallets={[
-          metamaskWallet(),
-          rainbowWallet(),
-          walletConnect(),
-          trustWallet(),
-          localWallet(),
-        ]}>
-        <AppInner />
-      </ThirdwebProvider>
+      <WagmiConfig config={config}>
+        <ThirdwebProvider
+          activeChain={Zora}
+          //NEXT_PUBLIC_ prefix for NEXT.js
+          clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
+          supportedWallets={[
+            metamaskWallet(),
+            rainbowWallet(),
+            walletConnect(),
+            trustWallet(),
+            localWallet(),
+          ]}>
+          <AppInner />
+        </ThirdwebProvider>
+      </WagmiConfig>
     </NavigationContainer>
   );
 };
@@ -57,7 +75,7 @@ const AppInner = () => {
 };
 
 const AppInnerMost = () => {
-  const address = useAddress();
+  const address = useAccount();
   const isDarkMode = useColorScheme() === 'dark';
   const switchChain = useSwitchChain();
 
@@ -98,3 +116,18 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
+
+{/* <ThirdwebProvider
+        activeChain={Zora}
+        //NEXT_PUBLIC_ prefix for NEXT.js
+        clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
+        supportedWallets={[
+          metamaskWallet(),
+          rainbowWallet(),
+          walletConnect(),
+          trustWallet(),
+          localWallet(),
+        ]}>
+        <AppInner />
+      </ThirdwebProvider> */}

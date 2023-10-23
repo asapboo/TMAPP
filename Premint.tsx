@@ -7,10 +7,8 @@ import React, {
     useMemo,
   } from "react";
 
- /* 
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { PremintAPI } from "@zoralabs/premint-sdk";
-*/
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -38,7 +36,6 @@ const styles = StyleSheet.create({
   });
 
 const Premint = (props: { imageData: string }) => {
-    /*
     const [mintContract, setMintContract] = useState("");
     const [uid, setUID] = useState("");
     const [minting, setMinting] = useState<null | string>(null);
@@ -51,6 +48,13 @@ const Premint = (props: { imageData: string }) => {
     const publicClient = usePublicClient();
 
     console.log("Premint Opened")
+
+    useEffect(() => {
+      // Only trigger uploadImage when imageData is present
+      if (props.imageData) {
+        uploadImage();
+      }
+    }, [props.imageData]);
 
     const processPremint = useCallback(
         async (url: string) => {
@@ -160,11 +164,8 @@ const Premint = (props: { imageData: string }) => {
               props.imageData
             ]
           );
-          */
             
             return (
-                <Text>hello</Text>
-                /*
                 <View style={styles.page}>
                   <View
                     style={[
@@ -192,7 +193,6 @@ const Premint = (props: { imageData: string }) => {
                       </View>
                     )}
                   </View>
-                  {/* Your React Native camera code should replace this block
                   <View style={styles.takePhoto}>
                     <TouchableOpacity
                       onPress={() => {
@@ -202,12 +202,10 @@ const Premint = (props: { imageData: string }) => {
                       <Text>📸 Take Photo</Text>
                     </TouchableOpacity>
                   </View>
-                  {/* Handle the link to zora.co appropriately
                   <TouchableOpacity style={styles.zorb}>
                     <Text>View posts</Text>
                   </TouchableOpacity>
                 </View>
-                */
               );
             };
 
