@@ -38,7 +38,6 @@ const App = () => {
           localWallet(),
         ]}>
         <AppInner />
-        <AppInnerMost />
       </ThirdwebProvider>
     </NavigationContainer>
   );
@@ -75,7 +74,7 @@ const AppInnerMost = () => {
         <Text> Please connect wallet to begin</Text>
       ) : ( 
         <View>
-          <CameraModule />
+          {/*<CameraModule />*/}
           <NFT/>
         </View>
       )}

@@ -10,15 +10,15 @@ const CameraModule = () => {
     //const { hasPermission, requestPermission } = useMicrophonePermission()
     console.log("hello camera is open")
     return (
-        <View>
-       {device && (
+      <View style={{ width, height }}>
+        {device && (
           <Camera
-            style={{ width: 200, height: 200 }}
+            style={{ width, height }}
             device={device}
             isActive={true}
           />
         )}
-        </View>
+      </View>
     );
 }
 

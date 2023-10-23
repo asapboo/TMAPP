@@ -6,7 +6,17 @@ import { Camera } from "react-native-vision-camera";
 const Test = () => {
     console.log("hello test opened.")
     return (
-        <View>
+        <View style={{ flex: 1 }}>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
+            <Text>hello this is test component</Text>
             <Text>hello this is test component</Text>
         </View>
     );
