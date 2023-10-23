@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+Camera import React, { useRef, useState } from "react";
 import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { useCameraPermission, useCameraDevice, useCameraFormat, Camera} from "react-native-vision-camera";
 import { abi } from "./abi";
+import Premint from "./Premint";
 
 const CameraModule = () => {
     const { hasPermission, requestPermission } = useCameraPermission();
@@ -14,6 +15,7 @@ const CameraModule = () => {
     const format = useCameraFormat(device, [
       { photoResolution: 'max' }
     ])
+    const [showPremint, setShowPremint] = useState(false);
 
     const takePicture = async() => {
       if(camera!=null) {
@@ -30,36 +32,49 @@ const CameraModule = () => {
         {device && (
           <View style={{ flex: 1 }}>
             {takePhoto ? (
-              <View style={{flex:1, justifyContent:'center', alignItems: 'center'}}>
-                {imageData!== '' && <Image source={{uri: 'file://'+imageData}} style={{width: '80%', height:'60%'}}/>}
-                <TouchableOpacity
-                style={{
-                  width: '90%',
-                  height: 50,
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  setTakePhoto(false)
-                }}>
-                  <Text>Retake</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                style={{
-                  width: '90%',
-                  height: 50,
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  
-                }}>
-                  <Text>Save</Text>
-                </TouchableOpacity>
+              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                {showPremint ? (
+                  <Premint imageData={imageData} />
+                ) : (
+                  <>
+                    {imageData !== "" && (
+                      <Image
+                        source={{ uri: "file://" + imageData }}
+                        style={{ width: "80%", height: "60%" }}
+                      />
+                    )}
+                    <TouchableOpacity
+                      style={{
+                        width: "90%",
+                        height: 50,
+                        borderWidth: 1,
+                        alignSelf: "center",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onPress={() => {
+                        setTakePhoto(false);
+                      }}
+                    >
+                      <Text>Retake</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        width: "90%",
+                        height: 50,
+                        borderWidth: 1,
+                        alignSelf: "center",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onPress={() => {
+                        setShowPremint(true);
+                      }}
+                    >
+                      <Text>Mint</Text>
+                    </TouchableOpacity>
+                  </>
+                )}
               </View>
             ) : (
               <>
@@ -68,7 +83,6 @@ const CameraModule = () => {
                   style={{ width, height }}
                   device={device}
                   isActive={true}
-                  //format={format}
                   photo={true}
                 />
                 <TouchableOpacity
@@ -76,20 +90,20 @@ const CameraModule = () => {
                     width: 50,
                     height: 50,
                     borderRadius: 30,
-                    backgroundColor: '#FF0037',
+                    backgroundColor: "#FF0037",
                     position: "absolute",
                     bottom: 200,
-                    alignSelf: 'center',
+                    alignSelf: "center",
                   }}
                   onPress={takePicture}
-                >
-                </TouchableOpacity>
+                ></TouchableOpacity>
               </>
             )}
           </View>
         )}
       </View>
     );
-}
+  };
 
 export default CameraModule;
+
