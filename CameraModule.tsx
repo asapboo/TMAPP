@@ -1,8 +1,30 @@
-Camera import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { useCameraPermission, useCameraDevice, useCameraFormat, Camera} from "react-native-vision-camera";
 import { abi } from "./abi";
 import Premint from "./Premint";
+import { CameraRoll } from "@react-native-camera-roll/camera-roll";
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  button: {
+    marginVertical: 5,
+    backgroundColor: '#000',
+    opacity: 0.7,
+    padding: 10,
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 24,
+    color: '#fff',
+  },
+});
 
 const CameraModule = () => {
     const { hasPermission, requestPermission } = useCameraPermission();
@@ -10,7 +32,7 @@ const CameraModule = () => {
     const { width, height } = Dimensions.get('window');
     const [imageData, setImageData]= useState('');
     const [takePhoto, setTakePhoto] = useState(false);
-    //const { hasPermission, requestPermission } = useMicrophonePermission()
+    const [flashMode, setFlashMode] = useState('off');
     const camera = useRef<any>(null);
     const format = useCameraFormat(device, [
       { photoResolution: 'max' }
@@ -19,13 +41,36 @@ const CameraModule = () => {
 
     const takePicture = async() => {
       if(camera!=null) {
-        const photo = await camera.current.takePhoto();
+        const photo = await camera.current.takePhoto({
+          flash: flashMode,
+          qualityPrioritization: 'speed',
+        });
         setImageData(photo.path)
         setTakePhoto(true);
         console.log(photo.path);
       }
     };
 
+    const toggleFlash = () => {
+      setFlashMode(flashMode === 'off' ? 'on' : 'off');
+    };
+
+    const savePhoto = async () => {
+      try {
+        if (camera.current) {
+          const file = await camera.current.takePhoto();
+          await CameraRoll.save(`file://${file.path}`, {
+            type: 'photo',
+          });
+          console.log('Photo saved successfully');
+        } else {
+          console.error('Camera is not available');
+        }
+      } catch (error) {
+        console.error('An error occurred while saving the photo:', error);
+      }
+    };    
+    
     console.log("hello camera is open")
     return (
       <View style={{ width, height }}>
@@ -71,7 +116,7 @@ const CameraModule = () => {
                         setShowPremint(true);
                       }}
                     >
-                      <Text>Mint</Text>
+                      <Text>+++</Text>
                     </TouchableOpacity>
                   </>
                 )}
@@ -90,13 +135,30 @@ const CameraModule = () => {
                     width: 50,
                     height: 50,
                     borderRadius: 30,
-                    backgroundColor: "#FF0037",
+                    backgroundColor: "#FFFFFF",
                     position: "absolute",
                     bottom: 200,
                     alignSelf: "center",
                   }}
                   onPress={takePicture}
-                ></TouchableOpacity>
+                >
+                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={savePhoto}
+                  >
+                    <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={toggleFlash}
+                  >
+                    <Text style={styles.buttonText}>
+                      {flashMode === 'on' ? '⚡️' : '🌙'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </>
             )}
           </View>
