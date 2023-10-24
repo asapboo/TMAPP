@@ -7676,6 +7676,15 @@
     randombytes "^2.1.0"
     tslib "1.14.1"
 
+"@walletconnect/react-native-compat@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.10.1.tgz#39b6f1912c44bf1b0e9ce02ba63e4a30b92d6044"
+  integrity sha512-KZLj7wBcmnrzkqATZdW+OgrPvoceua54cgG460cpo3Yh81af+T51j3YFfpe7naCPW+EFX6SU5dpmMIe8jNfVjQ==
+  dependencies:
+    events "3.3.0"
+    fast-text-encoding "^1.0.6"
+    react-native-url-polyfill "^2.0.0"
+
 "@walletconnect/react-native-compat@^2.8.6":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.9.2.tgz#b6c4eeed93bd01d5b59969b5e2bd61648f8fa1b7"
@@ -7748,6 +7757,18 @@
   dependencies:
     tslib "1.14.1"
 
+"@walletconnect/types@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.10.1.tgz#1355bce236f3eef575716ea3efe4beed98a873ef"
+  integrity sha512-7pccAhajQdiH2kYywjE1XI64IqRI+4ioyGy0wvz8d0UFQ/DSG3MLKR8jHf5aTOafQQ/HRLz6xvlzN4a7gIVkUQ==
+  dependencies:
+    "@walletconnect/events" "^1.0.1"
+    "@walletconnect/heartbeat" "1.2.1"
+    "@walletconnect/jsonrpc-types" "1.0.3"
+    "@walletconnect/keyvaluestorage" "^1.0.2"
+    "@walletconnect/logger" "^2.0.1"
+    events "^3.3.0"
+
 "@walletconnect/types@2.10.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.10.2.tgz#68e433a29ec2cf42d79d8b50c77bd5c1d91db721"
@@ -7801,6 +7822,26 @@
     "@walletconnect/types" "2.9.2"
     "@walletconnect/utils" "2.9.2"
     events "^3.3.0"
+
+"@walletconnect/utils@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.10.1.tgz#65b37c9800eb0e80a08385b6987471fb46e1e22e"
+  integrity sha512-DM0dKgm9O58l7VqJEyV2OVv16XRePhDAReI23let6WdW1dSpw/Y/A89Lp99ZJOjLm2FxyblMRF3YRaZtHwBffw==
+  dependencies:
+    "@stablelib/chacha20poly1305" "1.0.1"
+    "@stablelib/hkdf" "1.0.1"
+    "@stablelib/random" "^1.0.2"
+    "@stablelib/sha256" "1.0.1"
+    "@stablelib/x25519" "^1.0.3"
+    "@walletconnect/relay-api" "^1.0.9"
+    "@walletconnect/safe-json" "^1.0.2"
+    "@walletconnect/time" "^1.0.2"
+    "@walletconnect/types" "2.10.1"
+    "@walletconnect/window-getters" "^1.0.1"
+    "@walletconnect/window-metadata" "^1.0.1"
+    detect-browser "5.3.0"
+    query-string "7.1.3"
+    uint8arrays "^3.1.0"
 
 "@walletconnect/utils@2.10.2", "@walletconnect/utils@^2.10.2":
   version "2.10.2"
@@ -7870,6 +7911,38 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
+
+"@web3modal/core-react-native@1.0.0-alpha.10":
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@web3modal/core-react-native/-/core-react-native-1.0.0-alpha.10.tgz#d1f8e4e2776cab42e18963bf57f55fabff3d8e5f"
+  integrity sha512-Sgm4W/t8y6osYo2xvSeov5g4gYmgB1vUGyey5CAVnBxdWIkVV0R+fK9AMw2dcvFlA8v/bQXzP2thHCLoIwnPdA==
+  dependencies:
+    valtio "1.11.2"
+
+"@web3modal/scaffold-react-native@1.0.0-alpha.10":
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@web3modal/scaffold-react-native/-/scaffold-react-native-1.0.0-alpha.10.tgz#0ccf024414c42bdd844f83d1263c5e14c3f75d9d"
+  integrity sha512-DT5rur7I9NwpqQK8Q5mnA2yYjzFkzibmnBuHKoxtyflEEkqt2GDeR8DuN9lBi7DraULoxs+Ly1CCq8s3i8O8ew==
+  dependencies:
+    "@web3modal/core-react-native" "1.0.0-alpha.10"
+    "@web3modal/ui-react-native" "1.0.0-alpha.10"
+    valtio "1.11.2"
+
+"@web3modal/ui-react-native@1.0.0-alpha.10":
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@web3modal/ui-react-native/-/ui-react-native-1.0.0-alpha.10.tgz#59c23a4de705bcdc1dabf580a10cef6e298c4225"
+  integrity sha512-Tgv/Ox0tyn+uvCH581i+S1NZ3n8GMuDf+n1yWTr0r6ESJuDZJLrmPYOHN5US9nr88yfNxiqmk5XKFX0CwnT2hA==
+  dependencies:
+    qrcode "1.5.3"
+
+"@web3modal/wagmi-react-native@^1.0.0-alpha.10":
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@web3modal/wagmi-react-native/-/wagmi-react-native-1.0.0-alpha.10.tgz#6f5fcc2aeb131a7a5043244cf3491fdcbfbbbf19"
+  integrity sha512-4XH4Eh25xkjwmEpysnQADfGmG+McfA36I9Z0/1ZzSWOeWlc4nFutFNP7OJ6TT0t7UEAsa1UjpUke97OLDif31w==
+  dependencies:
+    "@walletconnect/react-native-compat" "2.10.1"
+    "@walletconnect/utils" "2.10.1"
+    "@web3modal/scaffold-react-native" "1.0.0-alpha.10"
 
 "@xmldom/xmldom@~0.7.7":
   version "0.7.13"
@@ -9887,13 +9960,8 @@ dotenv@~16.0.3:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
-"ds-test@git+https://github.com/dapphub/ds-test.git#cd98eff28324bfac652e63a239a60632a761790b":
-  version "1.0.0"
-  resolved "git+https://github.com/dapphub/ds-test.git#cd98eff28324bfac652e63a239a60632a761790b"
-
 "ds-test@https://github.com/dapphub/ds-test#cd98eff28324bfac652e63a239a60632a761790b":
   version "1.0.0"
-  uid cd98eff28324bfac652e63a239a60632a761790b
   resolved "https://github.com/dapphub/ds-test#cd98eff28324bfac652e63a239a60632a761790b"
 
 duplexify@^4.1.2:
@@ -11095,13 +11163,8 @@ foreground-child@^3.1.0:
     cross-spawn "^7.0.0"
     signal-exit "^4.0.1"
 
-"forge-std@git+https://github.com/foundry-rs/forge-std.git#705263c95892a906d7af65f0f73ce8a4a0c80b80":
-  version "1.6.0"
-  resolved "git+https://github.com/foundry-rs/forge-std.git#705263c95892a906d7af65f0f73ce8a4a0c80b80"
-
 "forge-std@https://github.com/foundry-rs/forge-std#705263c95892a906d7af65f0f73ce8a4a0c80b80":
   version "1.6.0"
-  uid "705263c95892a906d7af65f0f73ce8a4a0c80b80"
   resolved "https://github.com/foundry-rs/forge-std#705263c95892a906d7af65f0f73ce8a4a0c80b80"
 
 form-data@^3.0.0, form-data@^3.0.1:

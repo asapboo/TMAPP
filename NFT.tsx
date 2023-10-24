@@ -44,7 +44,7 @@ const NFT = () => {
             <Text>{isLoading ? ( 'loading' ) : ( nftBalance?.toString () )}</Text>
         </Text>
         {/*  action={() => mutateAsync({ args: ["My Name"] })}} */}
-        <Web3Button contractAddress={contractAddress} action={(contract) => contract.call("mintWithRewards",)}>MINT</Web3Button>
+        {/*<Web3Button contractAddress={contractAddress} action={(contract) => contract.call("mintWithRewards",)}>MINT</Web3Button>*/}
         </View>
         <Button title="Open Camera" onPress={() => navigation.navigate("Camera")} />
     </ScrollView>

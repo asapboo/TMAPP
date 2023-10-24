@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.15",
     "@thirdweb-dev/react-native": "^0.3",
     "@thirdweb-dev/react-native-compat": "^0.3",
+    "@web3modal/wagmi-react-native": "^1.0.0-alpha.10",
     "@zoralabs/premint-sdk": "^0.0.1",
     "ethers": "^5",
     "expo": "^49.0.3",

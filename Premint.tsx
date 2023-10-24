@@ -13,25 +13,18 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     page: {
-      // Add your styles here
     },
     minting: {
-      // Add your styles here
     },
     inactiveMinting: {
-      // Add your styles here
     },
     message: {
-      // Add your styles here
     },
     takePhoto: {
-      // Add your styles here
     },
     switch: {
-      // Add your styles here
     },
     zorb: {
-      // Add your styles here
     }
   });
 
@@ -44,17 +37,18 @@ const Premint = (props: { imageData: string }) => {
     const [hasMultipleDevices, setHasMultipleDevices] = useState(false);
     const { isConnected, address } = useAccount();
     //var data = await sdk.wallet.IsConnected(); - thirdweb call
-    const { data: walletClient } = useWalletClient();
+    const { data: walletClient, isError, isLoading } = useWalletClient()
     const publicClient = usePublicClient();
+    const userAddress = useAccount();
+    
 
     console.log("Premint Opened")
 
     useEffect(() => {
-      // Only trigger uploadImage when imageData is present
-      if (props.imageData) {
+      if (props.imageData && !isLoading) {
         uploadImage();
       }
-    }, [props.imageData]);
+    }, [props.imageData, isLoading]);    
 
     const processPremint = useCallback(
         async (url: string) => {
@@ -95,7 +89,7 @@ const Premint = (props: { imageData: string }) => {
             async () => {
               setFailure(null);
               setSuccess(null);
-              const imageData = props.imageData; // <-- get imageData from props
+              const imageData = props.imageData;
         
               if (!walletClient) {
                 console.error("Missing walletClient");
@@ -190,13 +184,13 @@ const Premint = (props: { imageData: string }) => {
                         <TouchableOpacity onPress={() => clearState()}>
                           <Text>fauhgeddaboudit – 📸 another</Text>
                         </TouchableOpacity>
+                        <Text>Your Address is: {userAddress.address}</Text>
                       </View>
                     )}
                   </View>
                   <View style={styles.takePhoto}>
                     <TouchableOpacity
                       onPress={() => {
-                        // Your take photo logic here
                       }}
                     >
                       <Text>📸 Take Photo</Text>

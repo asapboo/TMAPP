@@ -27,22 +27,46 @@ import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { zora, zoraTestnet } from "viem/chains";
+import { createWeb3Modal, defaultWagmiConfig, Web3Modal, W3mButton } from '@web3modal/wagmi-react-native'
+
+const projectId = '3af6ea7020bb377913511bbd825b0d2d'
+
+const metadata = {
+  name: 'Web3Modal RN',
+  description: 'Web3Modal RN Example',
+  url: 'https://web3modal.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886'],
+  redirect: {
+    native: 'YOUR_APP_SCHEME://',
+    universal: 'YOUR_APP_UNIVERSAL_LINK.com'
+  }
+}
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [zora],
   [publicProvider()],
 )
 
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
+
+createWeb3Modal({ 
+  projectId,
+  chains,
+  wagmiConfig
+})
+
+{/*}
 const config = createConfig({
   autoConnect: true,
   publicClient,
   webSocketPublicClient,
 })
+*/}
 
 const App = () => {
   return (
     <NavigationContainer>
-      <WagmiConfig config={config}>
+      <WagmiConfig config={wagmiConfig}>
         <ThirdwebProvider
           activeChain={Zora}
           //NEXT_PUBLIC_ prefix for NEXT.js
@@ -54,8 +78,8 @@ const App = () => {
             trustWallet(),
             localWallet(),
           ]}>
-          <AppInner />
-        </ThirdwebProvider>
+            <AppInner />
+          </ThirdwebProvider>
       </WagmiConfig>
     </NavigationContainer>
   );
@@ -87,7 +111,9 @@ const AppInnerMost = () => {
   return (      
     <View style={styles.view}>
       <Text style={textStyles}>ZORA+</Text>
-      <ConnectWallet />
+      <Web3Modal />
+      <W3mButton />
+      {/*<ConnectWallet />*/}
       {!address ? ( 
         <Text> Please connect wallet to begin</Text>
       ) : ( 
