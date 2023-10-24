@@ -18,20 +18,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-end',
     position: 'absolute',
-    top: 10,
+    top: 100,
     right: 10,
   },
   button: {
     marginVertical: 5,
     backgroundColor: '#000',
     opacity: 0.7,
-    padding: 10,
-    borderRadius: 8,
+    width: 40, 
+    height: 40,  
+    borderRadius: 30, 
+    alignItems: 'center',  
+    justifyContent: 'center',  
   },
   buttonText: {
     fontSize: 24,
     color: '#fff',
-  },
+  },  
 });
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
@@ -44,6 +47,7 @@ const CameraModule = () => {
     const device = useCameraDevice('back');
     const { width, height } = Dimensions.get('window');
     const [imageData, setImageData]= useState('');
+    const [rawImageData, setRawImageData]= useState('');
     const [takePhoto, setTakePhoto] = useState(false);
     const [flashMode, setFlashMode] = useState('off');
     const camera = useRef<any>(null);
@@ -62,6 +66,7 @@ const CameraModule = () => {
         const imageAsBase64 = await RNFS.readFile(photo.path, 'base64');
         const imageAsBase64Url = toBase64Url(imageAsBase64);
         setImageData(imageAsBase64Url);
+        setRawImageData(photo.path)
         setTakePhoto(true);
         console.log('Base64URL Image Data:', imageAsBase64Url);
       }
@@ -122,7 +127,7 @@ const CameraModule = () => {
                   <>
                     {imageData !== "" && (
                       <Image
-                        source={{ uri: "file://" + imageData }}
+                        source={{ uri: "file://" + rawImageData }}
                         style={{ width: "80%", height: "60%" }}
                       />
                     )}
@@ -185,7 +190,7 @@ const CameraModule = () => {
                     borderRadius: 30,
                     backgroundColor: "#FFFFFF",
                     position: "absolute",
-                    bottom: 200,
+                    bottom: 50,
                     alignSelf: "center",
                   }}
                   onPress={takePicture}
