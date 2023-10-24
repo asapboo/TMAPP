@@ -98,8 +98,8 @@ const Premint = (props: { imageData: string }) => {
               }
               
               setMinting(imageData);
-              
-              const response = await fetch("/api/store", {
+              console.log('Sending request with imageData:', imageData);
+              const response = await fetch("https://photo.automat.sh/api/store", {
                 method: "POST",
                 headers: {
                   "content-type": "application/json",
@@ -109,7 +109,8 @@ const Premint = (props: { imageData: string }) => {
                   image: imageData,
                 }),
               });
-        
+              //console.log('Received response:', response);
+      
               if (response.status === 200) {
                 console.log("loaded");
                 setSuccess(
@@ -147,6 +148,7 @@ const Premint = (props: { imageData: string }) => {
                 }
               } else {
                 setFailure("Issue uploading");
+                console.error(`Upload failed with status: ${response.status}`);
               }
             },
             [

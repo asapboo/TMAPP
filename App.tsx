@@ -26,7 +26,7 @@ import { createConfig, configureChains, WagmiConfig, useAccount} from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { zora, zoraTestnet } from "viem/chains";
+import { zora, zoraTestnet, mainnet } from "viem/chains";
 import { createWeb3Modal, defaultWagmiConfig, Web3Modal, W3mButton } from '@web3modal/wagmi-react-native'
 
 const projectId = '3af6ea7020bb377913511bbd825b0d2d'
@@ -43,7 +43,7 @@ const metadata = {
 }
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [zora],
+  [zora, mainnet],
   [publicProvider()],
 )
 

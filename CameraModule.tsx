@@ -9,6 +9,9 @@ import Reanimated,  {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated"
+import Icon from "react-native-ionicons";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import RNFS from 'react-native-fs';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -50,17 +53,23 @@ const CameraModule = () => {
     const [showPremint, setShowPremint] = useState(false);
     const zoom = useSharedValue(0);
 
-    const takePicture = async() => {
-      if(camera!=null) {
+    const takePicture = async () => {
+      if (camera != null) {
         const photo = await camera.current.takePhoto({
           flash: flashMode,
           qualityPrioritization: 'speed',
         });
-        setImageData(photo.path)
+        const imageAsBase64 = await RNFS.readFile(photo.path, 'base64');
+        const imageAsBase64Url = toBase64Url(imageAsBase64);
+        setImageData(imageAsBase64Url);
         setTakePhoto(true);
-        console.log(photo.path);
+        console.log('Base64URL Image Data:', imageAsBase64Url);
       }
     };
+    const toBase64Url = (base64: string) => {
+      const urlSafeBase64 = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      return `data:image/jpeg;base64,${urlSafeBase64}`;
+    };          
 
     const toggleFlash = () => {
       setFlashMode(flashMode === 'off' ? 'on' : 'off');
@@ -88,7 +97,7 @@ const CameraModule = () => {
       try {
         if (camera.current) {
           const file = await camera.current.takePhoto();
-          await CameraRoll.save(`file://${file.path}`, {
+          await CameraRoll.save(`file://${imageData}`, {
             type: 'photo',
           });
           console.log('Photo saved successfully');
@@ -117,6 +126,14 @@ const CameraModule = () => {
                         style={{ width: "80%", height: "60%" }}
                       />
                     )}
+                    <View>
+                        <TouchableOpacity
+                        style={styles.button}
+                        onPress={savePhoto}
+                      >
+                        <Text style={styles.buttonText}>+</Text>
+                      </TouchableOpacity>
+                    </View>
                     <TouchableOpacity
                       style={{
                         width: "90%",
@@ -175,12 +192,6 @@ const CameraModule = () => {
                 >
                 </TouchableOpacity>
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={savePhoto}
-                  >
-                    <Text style={styles.buttonText}>+</Text>
-                  </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={toggleFlash}
