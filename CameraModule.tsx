@@ -1,9 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback} from "react";
 import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
-import { useCameraPermission, useCameraDevice, useCameraFormat, Camera} from "react-native-vision-camera";
+import { useCameraPermission, useCameraDevice, useCameraFormat, Camera, CameraProps} from "react-native-vision-camera";
 import { abi } from "./abi";
 import Premint from "./Premint";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
+import Reanimated,  {
+  useAnimatedProps,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated"
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -26,6 +31,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
+Reanimated.addWhitelistedNativeProps({
+  zoom: true,
+})
+
 const CameraModule = () => {
     const { hasPermission, requestPermission } = useCameraPermission();
     const device = useCameraDevice('back');
@@ -38,6 +48,7 @@ const CameraModule = () => {
       { photoResolution: 'max' }
     ])
     const [showPremint, setShowPremint] = useState(false);
+    const zoom = useSharedValue(0);
 
     const takePicture = async() => {
       if(camera!=null) {
@@ -54,6 +65,24 @@ const CameraModule = () => {
     const toggleFlash = () => {
       setFlashMode(flashMode === 'off' ? 'on' : 'off');
     };
+
+    const tapToFocus = async () => {
+      // Replace these with a gesturehandler x & y tap values
+      await camera.current.focus({ x: camera, y: camera })
+    }
+
+    const zoomIn = () => {
+      zoom.value = Math.min(zoom.value + 0.1, 1); // Max zoom level is 1
+    };
+    
+    const zoomOut = () => {
+      zoom.value = Math.max(zoom.value - 0.1, 0); // Min zoom level is 0
+    };    
+
+    const animatedProps = useAnimatedProps<Partial<CameraProps>>(
+      () => ({ zoom: zoom.value }),
+      [zoom]
+    )  
 
     const savePhoto = async () => {
       try {
@@ -123,13 +152,15 @@ const CameraModule = () => {
               </View>
             ) : (
               <>
-                <Camera
+                <ReanimatedCamera
                   ref={camera}
                   style={{ width, height }}
                   device={device}
                   isActive={true}
                   photo={true}
+                  animatedProps={animatedProps}
                 />
+
                 <TouchableOpacity
                   style={{
                     width: 50,
@@ -158,6 +189,18 @@ const CameraModule = () => {
                       {flashMode === 'on' ? '⚡️' : '🌙'}
                     </Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={zoomIn}
+                  >
+                    <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={zoomOut}
+                  >
+                    <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
                 </View>
               </>
             )}
@@ -168,4 +211,5 @@ const CameraModule = () => {
   };
 
 export default CameraModule;
+
 
