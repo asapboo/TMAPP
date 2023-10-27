@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import {Image, StyleSheet, View, Text, ScrollView, Button} from 'react-native';
 import { Zora } from "@thirdweb-dev/chains";
-import {abi} from "./abi"
+//import {abi} from "./abi"
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CameraModule from './CameraModule';

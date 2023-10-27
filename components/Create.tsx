@@ -3,7 +3,7 @@ import {StyleSheet, Text, useColorScheme, View, Button, FlatList, TouchableOpaci
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
 
-const cameraIcon = require("./public/camera.png");
+const cameraIcon = require("../public/camera.png");
 
 const data = [{ type: 'camera' }, { type: 'text' }, { type: 'text' }, { type: 'text' }];
 

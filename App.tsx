@@ -11,8 +11,8 @@ import {
   Web3Button,
 } from '@thirdweb-dev/react-native';
 import React from 'react';
-import Tabs from './Tabs';
-import CameraModule from './CameraModule';
+import Tabs from './components/Tabs';
+import CameraModule from './components/CameraModule';
 import { Zora, Ethereum } from "@thirdweb-dev/chains";
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createConfig, configureChains, WagmiConfig, useAccount} from "wagmi";

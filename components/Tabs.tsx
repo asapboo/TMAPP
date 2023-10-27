@@ -3,6 +3,7 @@ import {StyleSheet, Text, useColorScheme, View, Button, FlatList, TouchableOpaci
 import Welcome from './Welcome';
 import Feed from './Feed';
 import Create from './Create';
+import Profile from './Profile';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CameraModule from './CameraModule';
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
@@ -16,9 +17,9 @@ const hapticOptions = {
   ignoreAndroidSystemSettings: false,
 };
 
-const addIcon = require("./public/plusIcon.png");
-const homeIcon = require("./public/home.png");
-const zorbyIcon = require("./public/imgzorb.png");
+const addIcon = require("../public/plusIcon.png");
+const homeIcon = require("../public/home.png");
+const zorbyIcon = require("../public/imgzorb.png");
 
 const Tab = createBottomTabNavigator();
 
@@ -104,7 +105,7 @@ const Tabs = () => {
             }}
           />
 
-          <Tab.Screen name="Profile" component={Feed} options={{
+          <Tab.Screen name="Profile" component={Profile} options={{
               header: () => (
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
                   <Web3Modal />
