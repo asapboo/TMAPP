@@ -12,6 +12,7 @@ import {
 } from '@thirdweb-dev/react-native';
 import React from 'react';
 import Tabs from './Tabs';
+import CameraModule from './CameraModule';
 import { Zora, Ethereum } from "@thirdweb-dev/chains";
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createConfig, configureChains, WagmiConfig, useAccount} from "wagmi";
@@ -19,6 +20,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { zora, zoraTestnet, mainnet } from "viem/chains";
 import { createWeb3Modal, defaultWagmiConfig, Web3Modal, W3mButton } from '@web3modal/wagmi-react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const projectId = '3af6ea7020bb377913511bbd825b0d2d'
 
@@ -55,6 +57,7 @@ const config = createConfig({
 */}
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
@@ -63,16 +66,20 @@ const App = () => {
         <ThirdwebProvider
           activeChain={Zora}
           //NEXT_PUBLIC_ prefix for NEXT.js
-          clientId={process.env.TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
+          clientId={process.env.TW_CLIENT_ID}
           supportedWallets={[
             metamaskWallet(),
             rainbowWallet(),
             walletConnect(),
             trustWallet(),
             localWallet(),
-          ]}>
-            <Tabs />
-          </ThirdwebProvider>
+          ]}
+        >
+        <Stack.Navigator>
+          <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+          <Stack.Screen name="Camera" component={CameraModule} options={{ headerShown: false }} />
+        </Stack.Navigator>
+        </ThirdwebProvider>
       </WagmiConfig>
     </NavigationContainer>
   );

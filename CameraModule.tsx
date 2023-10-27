@@ -1,16 +1,13 @@
 import React, { useRef, useState, useCallback} from "react";
 import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { useCameraPermission, useCameraDevice, useCameraFormat, Camera, CameraProps} from "react-native-vision-camera";
-import { abi } from "./abi";
 import Premint from "./Premint";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import Reanimated,  {
   useAnimatedProps,
   useSharedValue,
   withSpring,
-} from "react-native-reanimated"
-import Icon from "react-native-ionicons";
-import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+} from "react-native-reanimated";
 import RNFS from 'react-native-fs';
 
 const styles = StyleSheet.create({
@@ -176,7 +173,7 @@ const CameraModule = () => {
               <>
                 <ReanimatedCamera
                   ref={camera}
-                  style={{ width, height }}
+                  style={{ height: '60%', width: '100%', backgroundColor: 'black' }}
                   device={device}
                   isActive={true}
                   photo={true}

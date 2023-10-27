@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, useColorScheme, View, Button, FlatList, TouchableOpacity, Image} from 'react-native';
 import Welcome from './Welcome';
 import Feed from './Feed';
+import Create from './Create';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CameraModule from './CameraModule';
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
@@ -15,7 +16,7 @@ const hapticOptions = {
   ignoreAndroidSystemSettings: false,
 };
 
-const cameraIcon = require("./public/camera.png");
+const addIcon = require("./public/plusIcon.png");
 const homeIcon = require("./public/home.png");
 const zorbyIcon = require("./public/imgzorb.png");
 
@@ -73,7 +74,7 @@ const Tabs = () => {
             }}
           />            
 
-          <Tab.Screen name="Camera" component={CameraModule} options={{
+          <Tab.Screen name="Create" component={Create} options={{
               header: () => (
                 //Split this component out into a tab header once we have usernames
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
@@ -94,7 +95,7 @@ const Tabs = () => {
                   alignItems: 'center'
                 }}>
                   <Image 
-                    source={cameraIcon}  // Replace this URI with the actual path
+                    source={addIcon}  // Replace this URI with the actual path
                     style={{ width: 25, height: 25 }}
                   />
                 </View>
@@ -107,7 +108,7 @@ const Tabs = () => {
               header: () => (
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
                   <Web3Modal />
-                  <View style={{top: 20, right: 10}}>
+                  <View style={{top: 30, right: 30}}>
                   <W3mButton/>
                   </View>
                 </View>
