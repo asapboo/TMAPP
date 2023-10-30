@@ -166,12 +166,9 @@ const CameraModule = () => {
                     animationType="slide"
                     transparent={true}
                     visible={showPremint}>
-                      <View>
-                        <TouchableOpacity onPress={() => setShowPremint(!showPremint)}>
-                          <Text>Hide</Text>
+                        <TouchableOpacity onPress={() => setShowPremint(false)}>
+                          <Text style={{color: 'black'}}>Hide</Text>
                         </TouchableOpacity>
-                        
-                      </View>
                     <Premint imageData={imageData} /> 
                   </Modal>
                 ) : null}
