@@ -63,23 +63,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <WagmiConfig config={wagmiConfig}>
-        <ThirdwebProvider
-          activeChain={Zora}
-          //NEXT_PUBLIC_ prefix for NEXT.js
-          clientId={process.env.TW_CLIENT_ID}
-          supportedWallets={[
-            metamaskWallet(),
-            rainbowWallet(),
-            walletConnect(),
-            trustWallet(),
-            localWallet(),
-          ]}
-        >
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
           <Stack.Screen name="Camera" component={CameraModule} options={{ headerShown: false }} />
         </Stack.Navigator>
-        </ThirdwebProvider>
       </WagmiConfig>
     </NavigationContainer>
   );
