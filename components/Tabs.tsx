@@ -41,7 +41,7 @@ const Tabs = () => {
         tabBarIcon: () => null, // Make icons invisible
       }}
     >
-      {!isConnected ? (
+      {isConnected ? (
         <>
           <Tab.Screen
             name="Home"

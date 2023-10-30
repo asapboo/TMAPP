@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-end',
     position: 'absolute',
-    top: 100,
-    right: 10,
+    top: '22%',
+    right: '10%',
   },
   button: {
     marginVertical: 5,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',  
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 18,
     color: '#fff',
   },  
 });
@@ -39,11 +39,23 @@ Reanimated.addWhitelistedNativeProps({
   zoom: true,
 })
 
+const zorbyIcon = require("../public/imgzorb.png");
+const downloadIcon = require("../public/download.png");
+const downloadedIcon = require("../public/downloaded.png");
+const undoIcon = require("../public/undo.png");
+const flashOn = require("../public/flashOn.png");
+const flashOff = require("../public/flashOff.png");
+const cameraSwitch = require("../public/switchCamera.png");
+
 const CameraModule = () => {
+  type CameraPosition = 'back' | 'front';
+
     const { hasPermission, requestPermission } = useCameraPermission();
-    const device = useCameraDevice('back');
+    const [currentDevice, setCurrentDevice] = useState<CameraPosition>('back');
+    const device = useCameraDevice(currentDevice);
     const { width, height } = Dimensions.get('window');
     const [imageData, setImageData]= useState('');
+    const [savedPhoto, setSavedPhoto] = useState(false);
     const [rawImageData, setRawImageData]= useState('');
     const [takePhoto, setTakePhoto] = useState(false);
     const [flashMode, setFlashMode] = useState('off');
@@ -80,15 +92,7 @@ const CameraModule = () => {
     const tapToFocus = async () => {
       // Replace these with a gesturehandler x & y tap values
       await camera.current.focus({ x: camera, y: camera })
-    }
-
-    const zoomIn = () => {
-      zoom.value = Math.min(zoom.value + 0.1, 1); // Max zoom level is 1
-    };
-    
-    const zoomOut = () => {
-      zoom.value = Math.max(zoom.value - 0.1, 0); // Min zoom level is 0
-    };    
+    } 
 
     const animatedProps = useAnimatedProps<Partial<CameraProps>>(
       () => ({ zoom: zoom.value }),
@@ -97,132 +101,167 @@ const CameraModule = () => {
 
     const savePhoto = async () => {
       try {
-        if (camera.current) {
-          const file = await camera.current.takePhoto();
-          await CameraRoll.save(`file://${imageData}`, {
-            type: 'photo',
-          });
-          console.log('Photo saved successfully');
-        } else {
-          console.error('Camera is not available');
-        }
+        await CameraRoll.save(`file://${rawImageData}`, {
+          type: 'photo',
+        });
+        console.log('Photo saved successfully');
+        setSavedPhoto(true);  // Set savedPhoto to true upon successful save
       } catch (error) {
         console.error('An error occurred while saving the photo:', error);
       }
-    };    
+    };          
+
+    const toggleCameraDevice = () => {
+      setCurrentDevice(currentDevice === 'back' ? 'front' : 'back');
+    };
     
     console.log("hello camera is open")
     return (
-      <View style={{ width, height }}>
+      <View style={{ width, height, backgroundColor: 'black' }}>
+        
         {device && (
           <View style={{ flex: 1 }}>
             {takePhoto ? (
-              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 {showPremint ? (
-                  <Premint imageData={imageData} />
+                  <View style={{ 
+                    position: 'absolute', 
+                    bottom: 0, // Position it at the bottom
+                    width: '100%', // Take full width
+                    height: '30%' // Set the height to 30% of the parent view
+                  }}>
+                    <Premint imageData={imageData} />
+                  </View>
                 ) : (
                   <>
-                    {imageData !== "" && (
+                    {imageData !== '' && (
                       <Image
-                        source={{ uri: "file://" + rawImageData }}
-                        style={{ width: "80%", height: "60%" }}
+                        source={{ uri: 'file://' + rawImageData }}
+                        style={{ width: '80%', height: '60%' }}
                       />
                     )}
-                    <View>
-                        <TouchableOpacity
-                        style={styles.button}
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 100 }}>
+                      <TouchableOpacity
+                        style={{
+                          width: 40,
+                          height: 40,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          margin: 10, 
+                          right: '30%',
+                          position: 'absolute',
+                        }}
                         onPress={savePhoto}
                       >
-                        <Text style={styles.buttonText}>+</Text>
+                       <Image 
+                        source={savedPhoto ? downloadedIcon : downloadIcon}  
+                        style={{ width: 30, height: 30 }}
+                      />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{
+                          width: 40,
+                          height: 40,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          left: '30%',
+                          margin: 10, 
+                          position: 'absolute',
+                        }}
+                        onPress={() => setTakePhoto(false)}
+                      >
+                        <Image 
+                          source={undoIcon}  
+                          style={{ width: 30, height: 30 }}
+                        />
                       </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                       style={{
-                        width: "90%",
+                        width: '90%',
                         height: 50,
                         borderWidth: 1,
-                        alignSelf: "center",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        borderColor: 'white',
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: '85%',
                       }}
-                      onPress={() => {
-                        setTakePhoto(false);
-                      }}
+                      onPress={() => setShowPremint(true)}
                     >
-                      <Text>Retake</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        width: "90%",
-                        height: 50,
-                        borderWidth: 1,
-                        alignSelf: "center",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      onPress={() => {
-                        setShowPremint(true);
-                      }}
-                    >
-                      <Text>+++</Text>
+                      <Text style={{ color: 'white' }}>+++</Text>
                     </TouchableOpacity>
                   </>
                 )}
               </View>
             ) : (
               <>
+              
+              <TouchableOpacity
+                style={{
+                  width: '90%',
+                  height: 50,
+                  borderWidth: 1,
+                  borderColor: 'white',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  top: '10%',
+                }}
+              >
+                <Text style={{ color: 'white' }}>Capture The Moment</Text>
+              </TouchableOpacity>
+              <View style={{ height: '60%', width: '90%', alignSelf: 'center', top: '20%' }}>
                 <ReanimatedCamera
                   ref={camera}
-                  style={{ height: '60%', width: '100%', backgroundColor: 'black' }}
+                  style={{ height: '100%', width: '100%', backgroundColor: 'black' }}
+                  //@ts-ignore
                   device={device}
                   isActive={true}
                   photo={true}
                   animatedProps={animatedProps}
                 />
-
-                <TouchableOpacity
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 30,
-                    backgroundColor: "#FFFFFF",
-                    position: "absolute",
-                    bottom: 50,
-                    alignSelf: "center",
-                  }}
-                  onPress={takePicture}
-                >
-                </TouchableOpacity>
+              </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={toggleFlash}
                   >
-                    <Text style={styles.buttonText}>
-                      {flashMode === 'on' ? '⚡️' : '🌙'}
-                    </Text>
+                  <Image 
+                    source={flashMode === 'on' ? flashOn : flashOff}
+                    style={{ width: 25, height: 25 }}
+                  />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={zoomIn}
+                    onPress={toggleCameraDevice}
                   >
-                    <Text style={styles.buttonText}>+</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={zoomOut}
-                  >
-                    <Text style={styles.buttonText}>-</Text>
+                    <Image 
+                      source={cameraSwitch}
+                      style={{ width: 25, height: 25 }}
+                    />
                   </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                  style={{
+                    top: '10%',
+                    alignSelf: 'center',
+                  }}
+                  onPress={takePicture}
+                >
+                  <Image source={zorbyIcon} style={{ width: 50, height: 50 }} />
+                </TouchableOpacity>
               </>
             )}
           </View>
         )}
       </View>
-    );
-  };
+    );    
+};    
 
 export default CameraModule;
+
 
 

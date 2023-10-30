@@ -9,10 +9,18 @@ import React, {
 
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { PremintAPI } from "@zoralabs/premint-sdk";
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 
 const styles = StyleSheet.create({
     page: {
+      backgroundColor: 'white',
+      padding: 20,
+      borderRadius: 10,
+      width: '100%',
+      position: 'absolute',
+      bottom: 0,
+      height: 200,
+      alignItems: 'center',
     },
     minting: {
     },
@@ -184,23 +192,32 @@ const Premint = (props: { imageData: string }) => {
                           </TouchableOpacity>
                         )}
                         <TouchableOpacity onPress={() => clearState()}>
-                          <Text>fauhgeddaboudit – 📸 another</Text>
+                          <Text>take another</Text>
                         </TouchableOpacity>
-                        <Text>Your Address is: {userAddress.address}</Text>
                       </View>
                     )}
                   </View>
                   <View style={styles.takePhoto}>
-                    <TouchableOpacity
-                      onPress={() => {
-                      }}
-                    >
-                      <Text>📸 Take Photo</Text>
-                    </TouchableOpacity>
                   </View>
-                  <TouchableOpacity style={styles.zorb}>
+                  <TouchableOpacity 
+                    style={styles.zorb}
+                    onPress={() => {
+                      if (address) {
+                        const url = `https://zora.co/${address}`;
+                        Linking.canOpenURL(url)
+                          .then((supported) => {
+                            if (supported) {
+                              Linking.openURL(url);
+                            } else {
+                              console.log(`Ehh sorry ${url}`);
+                            }
+                          })
+                          .catch((err) => console.error('An error occurred', err));
+                      }
+                    }}
+                  >
                     <Text>View posts</Text>
-                  </TouchableOpacity>
+                </TouchableOpacity>
                 </View>
               );
             };
