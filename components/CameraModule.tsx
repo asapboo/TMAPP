@@ -153,13 +153,13 @@ const CameraModule = () => {
 
     return (
       <View style={{ width, height, backgroundColor: 'black' }}>
-        <Text style={{ color: 'white', fontWeight:'bold', fontSize:18, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: '10%', }}>+++</Text>
+        <Text style={{ color: 'white', fontWeight:'bold', fontSize:18, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: '10%', }}>Create</Text>
         <TouchableOpacity
           style={{
             left: '7%',
             top: '10%',
           }}
-          onPress={navigateHome}
+          onPress={navigateFeed}
         >
           <Text style={{ color: 'white' }}>Cancel</Text>
         </TouchableOpacity>
@@ -226,7 +226,7 @@ const CameraModule = () => {
                     </View>
                     <TouchableOpacity
                       style={{
-                        width: '90%',
+                        width: '50%',
                         height: 50,
                         borderWidth: 1,
                         borderColor: 'black',

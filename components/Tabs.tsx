@@ -24,7 +24,7 @@ const zorbyIcon = require("../public/imgzorb.png");
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
@@ -48,13 +48,17 @@ const Tabs = () => {
             component={Feed}
             options={{
               header: () => (
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
-                  <Web3Modal />
-                  <View style={{top: 20, right: 10}}>
-                  <W3mButton/>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black', paddingTop: 30 }}>
+                  <View style={{ width: '33%' }}> 
+                  </View>
+                  <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold', width: '33%', textAlign: 'center' }}>
+                    +++
+                  </Text>
+                  <View style={{ width: '33%', alignItems: 'flex-end', paddingRight: 10 }}>
+                    <W3mButton />
                   </View>
                 </View>
-              ),
+              ),              
               headerShown: true,
               tabBarIcon: ({ focused }) => (
                 <View style={{
@@ -75,7 +79,7 @@ const Tabs = () => {
             }}
           />            
 
-          <Tab.Screen name="Create" component={Create} options={{
+          <Tab.Screen name="Create" component={CameraModule} options={{
               header: () => (
                 //Split this component out into a tab header once we have usernames
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
@@ -85,7 +89,7 @@ const Tabs = () => {
                   </View>
                 </View>
               ),
-              headerShown: true,
+              headerShown: false,
               tabBarIcon: ({ focused }) => (
                 <View style={{
                   borderRadius: 25,  // Make it round
@@ -102,17 +106,22 @@ const Tabs = () => {
                 </View>
               ),
               tabBarLabel: () => null,
+              tabBarStyle: { height: 0, display: 'none' }
             }}
           />
 
           <Tab.Screen name="Profile" component={Profile} options={{
               header: () => (
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black'}}>
-                  <Web3Modal />
-                  <View style={{top: 30, right: 30}}>
-                  <W3mButton/>
-                  </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 100, width: '100%', backgroundColor: 'black', paddingTop: 30 }}>
+                <View style={{ width: '33%' }}> 
                 </View>
+                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold', width: '33%', textAlign: 'center' }}>
+                  +++
+                </Text>
+                <View style={{ width: '33%', alignItems: 'flex-end', paddingRight: 10 }}>
+                  <W3mButton />
+                </View>
+              </View>
               ),
               headerShown: true,
               tabBarIcon: ({ focused }) => (
