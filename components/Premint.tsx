@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   const successIcon = require("../public/successIcon.png");
   const errorIcon = require("../public/errorIcon.png");
 
-const Premint = (props: { imageData: string }) => {
+const Premint = (props: { imageData: string, navigate: () => void }) => {
     const [mintContract, setMintContract] = useState("");
     const [uid, setUID] = useState("");
     const [minting, setMinting] = useState<null | string>(null);
@@ -66,7 +66,7 @@ const Premint = (props: { imageData: string }) => {
     const { data: walletClient, isError, isLoading } = useWalletClient()
     const publicClient = usePublicClient();
     const userAddress = useAccount();
-    
+    const [successfullyClipped, setSuccessfullyClipped] = useState(false);
 
     console.log("Premint Opened")
 
@@ -76,6 +76,14 @@ const Premint = (props: { imageData: string }) => {
       }
     }, [props.imageData, isLoading]);    
 
+    useEffect(() => {
+      if (successfullyClipped) {
+        setTimeout(() => {
+          props.navigate();
+        }, 1000); // 1 second delay
+      }
+    }, [successfullyClipped]);    
+    
     const processPremint = useCallback(
         async (url: string) => {
             if (!walletClient) {
@@ -156,6 +164,7 @@ const Premint = (props: { imageData: string }) => {
                 try {
                   console.log({ url });
                   const { zoraUrl } = await processPremint(url);
+                  setSuccessfullyClipped(true);
                   setSuccess(
                     <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
                     <Image

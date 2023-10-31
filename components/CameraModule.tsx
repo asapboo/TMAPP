@@ -144,6 +144,10 @@ const CameraModule = () => {
     const navigateHome = () => {
       navigation.navigate('Tabs');
     };
+
+    const navigateFeed = () => {
+      navigation.navigate("Tabs", { screen: "Home" });
+    };
     
     console.log("hello camera is open")
 
@@ -155,7 +159,7 @@ const CameraModule = () => {
             left: '7%',
             top: '10%',
           }}
-          onPress={() => navigation.navigate('Tabs')}
+          onPress={navigateHome}
         >
           <Text style={{ color: 'white' }}>Cancel</Text>
         </TouchableOpacity>
@@ -169,7 +173,7 @@ const CameraModule = () => {
                     animationType="slide"
                     transparent={true}
                     visible={showPremint}>
-                    <Premint imageData={imageData} /> 
+                    <Premint imageData={imageData} navigate={navigateFeed} /> 
                     <TouchableOpacity style={{position:'absolute', top: '72%', right: '5%'}} onPress={() => setShowPremint(false)}>
                           <Text style={{color: 'black'}}>X</Text>
                     </TouchableOpacity>
