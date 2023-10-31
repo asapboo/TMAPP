@@ -9,7 +9,7 @@ import React, {
 
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { PremintAPI } from "@zoralabs/premint-sdk";
-import { Text, View, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Linking, Image} from 'react-native';
 
 const styles = StyleSheet.create({
     page: {
@@ -19,22 +19,42 @@ const styles = StyleSheet.create({
       width: '100%',
       position: 'absolute',
       bottom: 0,
-      height: 200,
+      height: '30%',
       alignItems: 'center',
     },
     minting: {
+      top: '40%',
     },
     inactiveMinting: {
+      top: '40%',
     },
+
     message: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      alignItems: 'center',
+    },
+
+    messageView: {
     },
     takePhoto: {
     },
     switch: {
     },
     zorb: {
-    }
+    },
+    tryAgain: {
+      backgroundColor: 'black',
+      borderRadius: 30,
+      height: 30,
+      width: 100,
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
   });
+
+  const successIcon = require("../public/successIcon.png");
+  const errorIcon = require("../public/errorIcon.png");
 
 const Premint = (props: { imageData: string }) => {
     const [mintContract, setMintContract] = useState("");
@@ -42,9 +62,7 @@ const Premint = (props: { imageData: string }) => {
     const [minting, setMinting] = useState<null | string>(null);
     const [success, setSuccess] = useState<ReactNode | null>(null);
     const [failure, setFailure] = useState<ReactNode | null>(null);
-    const [hasMultipleDevices, setHasMultipleDevices] = useState(false);
     const { isConnected, address } = useAccount();
-    //var data = await sdk.wallet.IsConnected(); - thirdweb call
     const { data: walletClient, isError, isLoading } = useWalletClient()
     const publicClient = usePublicClient();
     const userAddress = useAccount();
@@ -122,9 +140,15 @@ const Premint = (props: { imageData: string }) => {
               if (response.status === 200) {
                 console.log("loaded");
                 setSuccess(
-                  <View>
-                    <Text>Uploaded...</Text>
-                    <Text>sign mint in wallet</Text>
+                  <View style={{flexDirection:'column', alignItems: 'center', justifyContent:'center'}}>
+                    <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
+                      <Image
+                              source={successIcon}
+                              style={{ width: 30, height: 30, marginEnd: 5 }}
+                        />
+                      <Text style={styles.message}>Successfully Uploaded.</Text>
+                    </View>
+                      <Text style={styles.message}>Approve transaction...</Text>
                   </View>
                 );
                 const { url } = await response.json();
@@ -133,21 +157,19 @@ const Premint = (props: { imageData: string }) => {
                   console.log({ url });
                   const { zoraUrl } = await processPremint(url);
                   setSuccess(
-                    <View>
-                      <Text>Minted 🎉</Text>
-                      <Text>
-                        📸 view on ZORA
-                      </Text>
-                      <TouchableOpacity onPress={() => clearState()}>
-                        <Text>📷 take another...</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
+                    <Image
+                            source={successIcon}
+                            style={{ width: 30, height: 30, marginEnd: 5 }}
+                      />
+                    <Text style={styles.message}>Successfully Clipped.</Text>
+                  </View> 
                   );
                 } catch (err: any) {
                   if (err.message === "Bad response: 403") {
                     setFailure(
-                      <View>
-                        <Text>Mint failed. Your wallet needs to be verified on zora.co.</Text>
+                      <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
+                        <Text style={styles.message}>Mint failed. Your wallet needs to be verified on zora.co.</Text>
                       </View>
                     );
                   }
@@ -178,28 +200,38 @@ const Premint = (props: { imageData: string }) => {
                     ]}
                   >
                     {minting && !success && !failure && (
-                      <View style={styles.message}>
-                        <Text>☁☁️☁️️ uploading ☁️☁️☁</Text>
+                      <View style={styles.messageView}>
+                        <Text style={styles.message}>Uploading...</Text>
                       </View>
                     )}
-                    {success && !failure && <View style={styles.message}>{success}</View>}
+
+                    {success && !failure && <Text>{success}</Text>}            
+
                     {failure && (
-                      <View style={styles.message}>
-                        <Text>{failure}</Text>
-                        {minting && (
-                          <TouchableOpacity onPress={() => uploadImage()}>
-                            <Text>↭ try again ↭</Text>
-                          </TouchableOpacity>
+                      <View>
+                        <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
+                          <Image
+                            source={errorIcon}
+                            style={{ width: 30, height: 30, marginEnd: 5 }}
+                          />
+                          <Text style={styles.message}>Error Uploading.</Text>
+                        </View>
+                            {/* minting */ minting && (
+                              <TouchableOpacity style= {styles.tryAgain} onPress={() => uploadImage()}>
+                                <Text style={{color: 'white', fontWeight: 'bold', alignSelf: 'center', fontSize: 16}}>Try again</Text>
+                            </TouchableOpacity>
                         )}
-                        <TouchableOpacity onPress={() => clearState()}>
-                          <Text>take another</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
+                        </View>
+                      )}
                   </View>
-                  <View style={styles.takePhoto}>
-                  </View>
-                  <TouchableOpacity 
+                </View>
+              );
+            };
+
+export default Premint;
+
+{/* 
+ <TouchableOpacity 
                     style={styles.zorb}
                     onPress={() => {
                       if (address) {
@@ -218,8 +250,17 @@ const Premint = (props: { imageData: string }) => {
                   >
                     <Text>View posts</Text>
                 </TouchableOpacity>
-                </View>
-              );
-            };
 
-export default Premint;
+
+                                   <View style={{flexDirection:'column', alignItems:'center'}}>
+                    <View style={{flexDirection:'row', alignItems: 'center', paddingBottom: 30}}>
+                      <Image
+                              source={successIcon}
+                              style={{ width: 30, height: 30, marginEnd: 5 }}
+                        />
+                      <Text style={styles.message}>Successfully Uploaded.</Text>
+                    </View>
+                      <Text>Approve transaction in wallet...</Text>
+                  </View>   
+              
+*/}

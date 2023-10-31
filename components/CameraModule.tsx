@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback} from "react";
-import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity, Modal, Pressable} from 'react-native';
+import {Image, StyleSheet, View, Text, ScrollView, Button, Dimensions, ActivityIndicator, TouchableOpacity, Modal, Pressable, useColorScheme} from 'react-native';
 import { useCameraPermission, useCameraDevice, useCameraFormat, Camera, CameraProps} from "react-native-vision-camera";
 import Premint from "./Premint";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
@@ -63,7 +63,6 @@ const CameraModule = () => {
     const [savedPhoto, setSavedPhoto] = useState(false);
     const [rawImageData, setRawImageData]= useState('');
     const [takePhoto, setTakePhoto] = useState(false);
-    const [test, setTest] = useState(true);
     const [flashMode, setFlashMode] = useState('off');
     const camera = useRef<any>(null);
     const format = useCameraFormat(device, [
@@ -141,6 +140,10 @@ const CameraModule = () => {
         setTakePhoto(true);
       }
     };
+
+    const navigateHome = () => {
+      navigation.navigate('Tabs');
+    };
     
     console.log("hello camera is open")
 
@@ -166,10 +169,10 @@ const CameraModule = () => {
                     animationType="slide"
                     transparent={true}
                     visible={showPremint}>
-                        <TouchableOpacity onPress={() => setShowPremint(false)}>
-                          <Text style={{color: 'black'}}>Hide</Text>
-                        </TouchableOpacity>
                     <Premint imageData={imageData} /> 
+                    <TouchableOpacity style={{position:'absolute', top: '72%', right: '5%'}} onPress={() => setShowPremint(false)}>
+                          <Text style={{color: 'black'}}>X</Text>
+                    </TouchableOpacity>
                   </Modal>
                 ) : null}
                     <Image
@@ -229,10 +232,11 @@ const CameraModule = () => {
                         position: 'absolute',
                         backgroundColor: 'white',
                         top: '85%',
+                        borderRadius: 30,
                       }}
                       onPress={() => setShowPremint(true)}
                     >
-                      <Text style={{ color: 'black' }}>Clip</Text>
+                      <Text style={{ color: 'black', fontSize:16, fontWeight:'bold' }}>Clip</Text>
                     </TouchableOpacity>
               </View>
             ) : (
