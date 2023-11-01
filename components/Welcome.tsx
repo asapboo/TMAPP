@@ -21,8 +21,7 @@ const Welcome = () => {
       <View style={styles.view}>
         {!isConnected && (
           <View style={{ alignItems: 'center' }}>
-            <Text style={textStyles}>ZORA+</Text>
-            <Text style={{...textStyles, fontSize: 14}}>+++ sign up, create, earn +++</Text>
+            <Text style={textStyles}>TMAPP</Text>
           </View>
         )}
   

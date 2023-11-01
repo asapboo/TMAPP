@@ -11,8 +11,6 @@ import {
   Web3Button,
 } from '@thirdweb-dev/react-native';
 import React from 'react';
-import Tabs from './components/Tabs';
-import CameraModule from './components/CameraModule';
 import { Zora, Ethereum } from "@thirdweb-dev/chains";
 import { useNavigation, NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createConfig, configureChains, WagmiConfig, useAccount} from "wagmi";
@@ -21,13 +19,14 @@ import { zora, zoraTestnet, mainnet } from "viem/chains";
 import { createWeb3Modal, defaultWagmiConfig, Web3Modal, W3mButton } from '@web3modal/wagmi-react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Welcome from './components/Welcome';
 
 const projectId = '3af6ea7020bb377913511bbd825b0d2d'
 
 const metadata = {
-  name: 'ZORA+',
-  description: 'An internet creative suite.',
-  url: 'https://zoraplus.com',
+  name: 'TMAPP',
+  description: 'meep',
+  url: 'https://toymakers.fun',
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
   redirect: {
     native: 'YOUR_APP_SCHEME://',
@@ -64,8 +63,7 @@ const App = () => {
     <NavigationContainer>
       <WagmiConfig config={wagmiConfig}>
         <Stack.Navigator>
-          <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-          <Stack.Screen name="Camera" component={CameraModule} options={{ headerShown: false }} />
+          <Stack.Screen name="Camera" component={Welcome} options={{ headerShown: false }} />
         </Stack.Navigator>
       </WagmiConfig>
     </NavigationContainer>
