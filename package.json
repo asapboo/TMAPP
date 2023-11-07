@@ -19,7 +19,7 @@
     "@react-navigation/native-stack": "^6.9.15",
     "@thirdweb-dev/react-native": "^0.3",
     "@thirdweb-dev/react-native-compat": "^0.3",
-    "@web3modal/wagmi-react-native": "^1.0.0-alpha.10",
+    "@web3modal/wagmi-react-native": "^1.0.0-alpha.14",
     "ethers": "^5",
     "expo": "^49.0.3",
     "node-libs-browser": "^2.2.1",
